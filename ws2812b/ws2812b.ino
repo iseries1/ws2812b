@@ -1,8 +1,16 @@
+/*  drive ws2812b led's from parallax
+ *   with Bufferfly board at 80mhz
+ *  Developer: Michael Burmeister
+ *  Date: March 16, 2017
+ *  
+ *  This is freeware written for fun
+ */
+ 
 #include "Arduino.h"
 #include "ws2812b.h"
 
 ws2812b strip;
-int GRB[5];
+uint32_t GRB[5];
 
 void setup() {
   Serial.begin(115200);
@@ -10,8 +18,8 @@ void setup() {
   
   strip.setPin(20);
   strip.ColorValue(0,255,0);
-  GRB[0] = strip.ColorValue(0,255,0);  //Red
-  GRB[1] = strip.ColorValue(255,0,0);  //Green
+  GRB[0] = strip.ColorValue(255,0,0);  //Red
+  GRB[1] = strip.ColorValue(0,255,0);  //Green
   GRB[2] = strip.ColorValue(0,0,255);  //Blue
   GRB[3] = strip.ColorValue(32,32,32); //light white ish
   GRB[4] = strip.ColorValue(64,64,64); //brighter white ish

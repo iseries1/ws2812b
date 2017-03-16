@@ -3,10 +3,12 @@
 
 #include "ws2812b.h"
 
+// Lets begin
 ws2812b::ws2812b()
 {
 }
 
+// Set the pin used to communicate
 void ws2812b::setPin(int pin)
 {
   pinMode(pin, OUTPUT);
@@ -15,7 +17,8 @@ void ws2812b::setPin(int pin)
   bit = g_APinDescription[pin].bit;
 }
 
-void ws2812b::setLEDs(int* ledValues, int leds)
+// Set the color of each LED
+void ws2812b::setLEDs(uint32_t* ledValues, int leds)
 {
   for (int j=0;j<leds;j++)
   {
@@ -23,6 +26,7 @@ void ws2812b::setLEDs(int* ledValues, int leds)
   }
 }
 
+// Build the color value as RGB
 uint32_t ws2812b::ColorValue(byte Green, byte Red, byte Blue)
 {
   uint32_t grb;
@@ -30,7 +34,8 @@ uint32_t ws2812b::ColorValue(byte Green, byte Red, byte Blue)
   return grb;
 }
 
-void ws2812b::sendBinary(int grb)
+// Release the hounds
+void ws2812b::sendBinary(uint32_t grb)
 {
   int ps = 6; // pulse short 6*3=18us (.4us)
   int pl = 24; // pulse long 24*3=72us (.8us)
@@ -42,7 +47,7 @@ void ws2812b::sendBinary(int grb)
   uint32_t GRBt = grb;
   noInterrupts();  //timing is critical 
   __asm__ volatile (
-          "     mov %[i], #24                   \n\t" // number of bits to send
+      "     mov %[i], #24                   \n\t" // number of bits to send
       "     lsl %[GRBt], #8                 \n" // remove 8 bits from 32
       "0:   lsls %[GRBt], %[GRBt], #1       \n\t" // send bit by carry (1)
       "     str  %[bit], [%[port], 0x18]    \n\t" // set the pin high (2)
